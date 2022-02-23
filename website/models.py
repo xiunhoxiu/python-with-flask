@@ -12,6 +12,7 @@ class Note(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  
         # associate different info with different users via a foreign key
         # foreign key (column): always ref an ID of another db.Column
+        # one to many, many to one, one to one: look up Flask SQLalchemy documentation
     
 
 class User(db.Model, UserMixin):
