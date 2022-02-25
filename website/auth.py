@@ -30,7 +30,7 @@ def login():
 
     # data = request.form
     # print(data)
-    return render_template("login.html", text="Testing", boolean=True)
+    return render_template("login.html", text="Testing", user=current_user)
 
 
 @auth.route('/logout')
@@ -68,4 +68,4 @@ def sign_up():
             return redirect(url_for('views.home'))
 
 
-    return render_template("sign_up.html")
+    return render_template("sign_up.html", user=current_user)
