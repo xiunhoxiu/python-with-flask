@@ -1,14 +1,12 @@
-# from xmlrpc.client import boolean
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for # from xmlrpc.client import boolean
 from .models import User
-from werkzeug.security import generate_password_hash, check_password_hash  
-    # hash func. that converts the actual password to something else
-    # one-way function that does not have an inverse
+from werkzeug.security import generate_password_hash, check_password_hash  # hash func. that converts the actual password to something else # one-way function that does not have an inverse
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
 
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
@@ -16,8 +14,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        user = User.query.filter_by(email=email).first() 
-            # .first() - return the first result
+        user = User.query.filter_by(email=email).first() # .first() - return the first result
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
@@ -27,10 +24,8 @@ def login():
                 flash('Incorrect password, try again.', category='error')
         else:
             flash('Email does not exist.', category='error')
-
-    # data = request.form
-    # print(data)
-    return render_template("login.html", text="Testing", user=current_user)
+    # data = request.form # print(data)
+    return render_template("login.html", user=current_user)
 
 
 @auth.route('/logout')
@@ -63,7 +58,7 @@ def sign_up():
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('views.home'))
 
